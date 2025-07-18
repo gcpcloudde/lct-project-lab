@@ -10,4 +10,4 @@ echo "new one"
 gcloud storage buckets create gs://$BUCKET_NAME \
   --project=$PROJECT_ID \
   --location=$LOCATION \
-  --storage-class=$STORAGE_CLASS
+  --default-storage-class=$STORAGE_CLASS
