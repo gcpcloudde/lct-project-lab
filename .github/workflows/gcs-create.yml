@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: 🔐 Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -28,22 +26,11 @@ jobs:
         with:
           project_id: lhn-dev-project
 
-      - name: 🔍 Find changed GCS scripts
-        id: changed_scripts
+      - name: 🚀 Run All GCS Scripts
         run: |
-          git fetch origin main
-          CHANGED_FILES=$(git diff --name-only origin/main HEAD | grep '^gcs/.*\.sh$' || true)
-          echo "changed=$CHANGED_FILES" >> $GITHUB_OUTPUT
-
-      - name: 📜 List changed scripts (Debug)
-        run: |
-          echo "Changed files: ${{ steps.changed_scripts.outputs.changed }}"
-
-      - name: 🚀 Run changed GCS scripts
-        if: steps.changed_scripts.outputs.changed != ''
-        run: |
-          for file in ${{ steps.changed_scripts.outputs.changed }}; do
-            echo "Executing $file"
-            chmod +x "$file"
+          echo "Running all .sh files under gcs/"
+          chmod +x gcs/**/*.sh
+          for file in gcs/**/*.sh; do
+            echo "➡️ Executing: $file"
             bash "$file"
           done
