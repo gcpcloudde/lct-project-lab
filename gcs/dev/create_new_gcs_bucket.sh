@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROJECT_ID="lhn-dev-project"
-BUCKET_NAME="dummy-test-bucket2-$(date +%s)"
+BUCKET_NAME="dummy-test-bucket3-$(date +%s)"
 LOCATION="us-central1"
 STORAGE_CLASS="STANDARD"
 
