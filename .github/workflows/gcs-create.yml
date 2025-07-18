@@ -16,7 +16,17 @@ jobs:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Required to compare commits
+          fetch-depth: 0
+
+      - name: 🔐 Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: 🛠️ Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: lhn-dev-project
 
       - name: 🔍 Find changed GCS scripts
         id: changed_scripts
@@ -29,11 +39,11 @@ jobs:
         run: |
           echo "Changed files: ${{ steps.changed_scripts.outputs.changed }}"
 
-      - name: 🧪 Run changed GCS scripts
+      - name: 🚀 Run changed GCS scripts
         if: steps.changed_scripts.outputs.changed != ''
         run: |
           for file in ${{ steps.changed_scripts.outputs.changed }}; do
-            echo "🚀 Executing $file"
+            echo "Executing $file"
             chmod +x "$file"
             bash "$file"
           done
