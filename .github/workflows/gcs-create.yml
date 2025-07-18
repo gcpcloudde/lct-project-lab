@@ -1,0 +1,39 @@
+name: GCS Script Runner
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'gcs/**/*.sh'
+      - '.github/workflows/gcs-create.yml'
+
+jobs:
+  run-gcs-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Required to compare commits
+
+      - name: 🔍 Find changed GCS scripts
+        id: changed_scripts
+        run: |
+          git fetch origin main
+          CHANGED_FILES=$(git diff --name-only origin/main HEAD | grep '^gcs/.*\.sh$' || true)
+          echo "changed=$CHANGED_FILES" >> $GITHUB_OUTPUT
+
+      - name: 📜 List changed scripts (Debug)
+        run: |
+          echo "Changed files: ${{ steps.changed_scripts.outputs.changed }}"
+
+      - name: 🧪 Run changed GCS scripts
+        if: steps.changed_scripts.outputs.changed != ''
+        run: |
+          for file in ${{ steps.changed_scripts.outputs.changed }}; do
+            echo "🚀 Executing $file"
+            chmod +x "$file"
+            bash "$file"
+          done
