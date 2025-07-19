@@ -1,13 +1,19 @@
 #!/bin/bash
 
+#!/bin/bash
+
+# Set variables
 PROJECT_ID="lhn-dev-project"
-BUCKET_NAME="prod-dmgt124-bucket-$(date +%s)"
+SRC_BUCKET="prod-dmgt123-bucket-1752939743"
+DEST_BUCKET="prod-dmgt124-bucket-1752940679"
 LOCATION="us-central1"
 STORAGE_CLASS="STANDARD"
 
-echo "Creating GCS bucket: $BUCKET_NAME in project: $PROJECT_ID"
-echo "new one"
-gcloud storage buckets create gs://$BUCKET_NAME \
-  --project=$PROJECT_ID \
-  --location=$LOCATION \
-  --default-storage-class=$STORAGE_CLASS
+
+# Copy all objects from source to destination
+echo "Copying objects from gs://$SRC_BUCKET to gs://$DEST_BUCKET"
+gcloud storage cp --recursive gs://$SRC_BUCKET gs://$DEST_BUCKET
+
+# Uncomment the following if you want to delete the original files after copying (i.e., move instead of copy)
+# echo "Deleting original objects from gs://$SRC_BUCKET"
+# gcloud storage rm --recursive gs://$SRC_BUCKET
