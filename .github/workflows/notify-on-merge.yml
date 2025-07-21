@@ -34,35 +34,28 @@ jobs:
           from: GitHub Actions <${{ secrets.MAIL_USERNAME }}>
           content_type: text/html
           body: |
-            <table width="100%" cellspacing="0" cellpadding="0" style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f4f8; padding: 20px;">
-              <tr>
-                <td>
-                  <table width="600" align="center" cellspacing="0" cellpadding="20" style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-                    <tr>
-                      <td>
-                        <h2 style="margin-top: 0; color: #0b5394;">🚀 GitHub CI/CD Notification</h2>
-                        <p style="font-size: 16px;"><strong>📌 Event:</strong> <span style="color: #333;">Pull Request merged to <code style="background-color: #eee; padding: 2px 6px; border-radius: 4px;">main</code></span></p>
+            <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9;">
+              <h2 style="color: #4CAF50;">✅ GitHub Action Notification</h2>
+              <p><strong>📌 Event:</strong> Pull Request <strong>merged</strong> to <code>main</code> branch</p>
 
-                        <hr style="border: 0; height: 1px; background-color: #ddd;" />
+              <hr style="border: none; border-top: 1px solid #ccc;" />
 
-                        <p style="font-size: 16px;"><strong>📁 Repository:</strong> <a href="https://github.com/${{ github.repository }}" style="color: #0b5394;">${{ github.repository }}</a></p>
-                        <p style="font-size: 16px;"><strong>🔗 Commit:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ github.sha }}" style="color: #0b5394;">${{ github.sha }}</a></p>
-                        <p style="font-size: 16px;"><strong>👤 Triggered By:</strong> <span style="color: #333;">${{ github.actor }}</span></p>
-                        <p style="font-size: 16px;"><strong>📅 Timestamp:</strong> <span style="color: #333;">${{ github.event.head_commit.timestamp }}</span></p>
-                        <p style="font-size: 16px;"><strong>📄 Commit Message:</strong> <em style="color: #444;">${{ github.event.head_commit.message }}</em></p>
+              <p><strong>📁 Repository:</strong> <a href="https://github.com/${{ github.repository }}" target="_blank">${{ github.repository }}</a></p>
+              <p><strong>🔗 Commit:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ github.sha }}" target="_blank">${{ github.sha }}</a></p>
+              <p><strong>👤 Triggered By:</strong> ${{ github.actor }}</p>
+              <p><strong>📅 Timestamp:</strong> ${{ github.event.head_commit.timestamp }}</p>
+              <p><strong>📄 Commit Message:</strong> ${{ github.event.head_commit.message }}</p>
 
-                        <hr style="border: 0; height: 1px; background-color: #ddd;" />
+              <hr style="border: none; border-top: 1px solid #ccc;" />
 
-                        <h3 style="color: ${{ job.status == 'success' && '#28a745' || '#dc3545' }};">🎯 Workflow Status: ${{ job.status | upper }}</h3>
+              <h3 style="color: ${{ job.status == 'success' && '#4CAF50' || '#F44336' }};">
+                🚀 Workflow Status: ${{ job.status }}
+              </h3>
 
-                        <p style="font-size: 16px;">🔍 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" style="color: #0b5394;">Click here to view full workflow logs</a></p>
+              <p>Visit the <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" target="_blank">workflow run page</a> for full details.</p>
 
-                        <p style="font-size: 12px; color: #888888; padding-top: 20px;">
-                          This is an automated message from your GitHub Actions CI/CD pipeline.
-                        </p>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
+              <br />
+              <footer style="font-size: 12px; color: #999;">
+                This is an automated message from GitHub Actions 🚀
+              </footer>
+            </div>
