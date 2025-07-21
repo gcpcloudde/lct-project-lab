@@ -1,0 +1,41 @@
+name: Notify on PR Merge to Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Simulate build or run actual steps
+        run: echo "Replace with your actual build/test/deploy steps"
+
+  notify:
+    needs: build
+    runs-on: ubuntu-latest
+    if: always()  # Run regardless of success/failure
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "GitHub Action - Merge to Main - ${{ job.status }}"
+          to: |
+            lavu2018hani@gmail.com,
+            lavu2016hani@gmail.com
+          from: GitHub Actions <${{ secrets.MAIL_USERNAME }}>
+          content_type: text/html
+          body: |
+            <h3>GitHub Action - PR Merged to Main</h3>
+            <p><strong>Status:</strong> ${{ job.status }}</p>
+            <p><strong>Repo:</strong> ${{ github.repository }}</p>
+            <p><strong>Commit:</strong> ${{ github.sha }}</p>
+            <p><strong>By:</strong> ${{ github.actor }}</p>
