@@ -25,8 +25,8 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
+          username: ${{ secrets.EMAIL_NAME}}
+          password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "GitHub Action - Merge to Main - ${{ job.status }}"
           to: |
             lavu2018hani@gmail.com,
