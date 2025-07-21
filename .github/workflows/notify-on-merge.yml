@@ -25,7 +25,7 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          username: ${{ secrets.EMAIL_NAME}}
+          username: ${{ secrets.EMAIL_NAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "GitHub Action - Merge to Main - ${{ job.status }}"
           to: |
@@ -34,8 +34,28 @@ jobs:
           from: GitHub Actions <${{ secrets.MAIL_USERNAME }}>
           content_type: text/html
           body: |
-            <h3>GitHub Action - PR Merged to Main</h3>
-            <p><strong>Status:</strong> ${{ job.status }}</p>
-            <p><strong>Repo:</strong> ${{ github.repository }}</p>
-            <p><strong>Commit:</strong> ${{ github.sha }}</p>
-            <p><strong>By:</strong> ${{ github.actor }}</p>
+            <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9;">
+              <h2 style="color: #4CAF50;">✅ GitHub Action Notification</h2>
+              <p><strong>📌 Event:</strong> Pull Request <strong>merged</strong> to <code>main</code> branch</p>
+
+              <hr style="border: none; border-top: 1px solid #ccc;" />
+
+              <p><strong>📁 Repository:</strong> <a href="https://github.com/${{ github.repository }}" target="_blank">${{ github.repository }}</a></p>
+              <p><strong>🔗 Commit:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ github.sha }}" target="_blank">${{ github.sha }}</a></p>
+              <p><strong>👤 Triggered By:</strong> ${{ github.actor }}</p>
+              <p><strong>📅 Timestamp:</strong> ${{ github.event.head_commit.timestamp }}</p>
+              <p><strong>📄 Commit Message:</strong> ${{ github.event.head_commit.message }}</p>
+
+              <hr style="border: none; border-top: 1px solid #ccc;" />
+
+              <h3 style="color: ${{ job.status == 'success' && '#4CAF50' || '#F44336' }};">
+                🚀 Workflow Status: ${{ job.status }}
+              </h3>
+
+              <p>Visit the <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" target="_blank">workflow run page</a> for full details.</p>
+
+              <br />
+              <footer style="font-size: 12px; color: #999;">
+                This is an automated message from GitHub Actions 🚀
+              </footer>
+            </div>
