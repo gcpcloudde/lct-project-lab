@@ -1,0 +1,70 @@
+name: Notify on PR Merge to Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Simulate build or run actual steps
+        run: echo "Replace with your actual build/test/deploy steps"
+
+  notify:
+    needs: build
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_NAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "GitHub Action - Merge to Main - ${{ job.status }}"
+          to: |
+            lavu2018hani@gmail.com,
+            lavu2016hani@gmail.com
+          from: GitHub Actions <${{ secrets.MAIL_USERNAME }}>
+          content_type: text/html
+          body: |
+            <table width="100%" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+              <tr>
+                <td align="center">
+                  <table width="600" cellpadding="20" cellspacing="0" style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <tr>
+                      <td>
+                        <h2 style="color: #4CAF50; margin-top: 0;">✅ GitHub Action Notification</h2>
+                        <p><strong>📌 Event:</strong> Pull Request <strong>merged</strong> to <code style="background-color:#eee; padding:2px 5px; border-radius:4px;">main</code> branch</p>
+
+                        <hr style="border: none; border-top: 1px solid #ddd;" />
+
+                        <p><strong>📁 Repository:</strong> <a href="https://github.com/${{ github.repository }}" target="_blank">${{ github.repository }}</a></p>
+                        <p><strong>🔗 Commit:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ github.sha }}" target="_blank">${{ github.sha }}</a></p>
+                        <p><strong>👤 Triggered By:</strong> ${{ github.actor }}</p>
+                        <p><strong>📅 Timestamp:</strong> ${{ github.event.head_commit.timestamp }}</p>
+                        <p><strong>📄 Commit Message:</strong> <em>${{ github.event.head_commit.message }}</em></p>
+
+                        <hr style="border: none; border-top: 1px solid #ddd;" />
+
+                        <p style="font-size: 18px; font-weight: bold; color: #4CAF50;">
+                          🚀 Workflow Status: ${{ job.status }}
+                        </p>
+
+                        <p>🔍 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" target="_blank">View Workflow Logs</a></p>
+
+                        <p style="font-size: 12px; color: #999; padding-top: 20px;">
+                          This is an automated message from GitHub Actions 🚀
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
