@@ -7,7 +7,7 @@ SUBSCRIPTION_NAME='gcs_bucket_notification_topic-sub'
 echo "The following command creates a pubsub topic named $PUBSUB_TOPIC"
 gcloud pubsub topics create $PUBSUB_TOPIC
 
-echo "Creating subscription and attaching that to the topoic as well...."
+echo "Creating subscription and attaching that to the topoic as well....."
 
 gcloud pubsub subscriptions create $SUBSCRIPTION_NAME --topic=$PUBSUB_TOPIC
 
