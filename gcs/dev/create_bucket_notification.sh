@@ -1,20 +1,17 @@
-
 #!/bin/bash
+echo "Taking existing bucket"
+BUCKET_NAME="dev-dgmt127-bucket-1753195398" 
+PUBSUB_TOPIC="gcs_bucket_notification_topic"
+SUBSCRIPTION_NAME='gcs_bucket_notification_topic-sub'
+ 
+echo "The following command creates a pubsub topic named $PUBSUB_TOPIC"
+gcloud pubsub topics create $PUBSUB_TOPIC
 
-# --- Configurable Variables ---
-PROJECT_ID="your-project-id"
-BUCKET_NAME="gcs_bucket_notification_demo"
-TOPIC_NAME="gcs-bucket-notification-topic"
+echo "Creating subscription and attaching that to the topoic as well....."
 
-# --- Set the project ---
-gcloud config set project "$PROJECT_ID"
+gcloud pubsub subscriptions create "$SUBSCRIPTION_NAME" --topic="$PUBSUB_TOPIC"
 
-# --- Create the Pub/Sub topic ---
-echo "Creating Pub/Sub topic: $TOPIC_NAME"
-gcloud pubsub topics create "$TOPIC_NAME" --project="$PROJECT_ID"
+echo "The following creates the bucket notification on $BUCKET_NAME for pubsub topic $PUBSUB_TOPIC"
 
-# --- Add a GCS notification to the bucket for OBJECT_FINALIZE events ---
-echo "Creating GCS bucket notification for bucket: $BUCKET_NAME"
-gsutil notification create -t "$TOPIC_NAME" -f json -e OBJECT_FINALIZE gs://"$BUCKET_NAME"
+gcloud storage buckets notifications create "gs://$BUCKET_NAME --topic=$PUBSUB_TOPIC"
 
-echo "✅ GCS Notification setup completed."
