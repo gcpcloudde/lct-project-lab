@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROJECT_ID="lhn-dev-project"
-BUCKET_NAME="dev-dgmt127-bucket-$(date +%s)"
+BUCKET_NAME="prod-dgmt127-bucket-$(date +%s)"
 LOCATION="us-central1"
 STORAGE_CLASS="STANDARD"
 
