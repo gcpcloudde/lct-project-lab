@@ -13,5 +13,5 @@ gcloud pubsub subscriptions create "$SUBSCRIPTION_NAME" --topic="$PUBSUB_TOPIC"
 
 echo "The following creates the bucket notification on $BUCKET_NAME for pubsub topic $PUBSUB_TOPIC"
 
-gcloud storage buckets notifications create "gs://$BUCKET_NAME --topic=$PUBSUB_TOPIC"
+gcloud storage buckets notifications create "gs://$BUCKET_NAME" --topic="$PUBSUB_TOPIC"
 
