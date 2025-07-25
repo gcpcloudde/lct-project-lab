@@ -1,0 +1,30 @@
+{
+  "name": "NYC Taxi CSV to BigQuery Pipeline",
+  "description": "Reads NYC Yellow Taxi CSV data from GCS, parses it, and writes valid/invalid rows to separate BigQuery tables.",
+  "parameters": [
+    {
+      "name": "input",
+      "label": "GCS Input Path",
+      "helpText": "Path to the input CSV file in Google Cloud Storage. Example: gs://your-bucket/path/to/input.csv",
+      "regexes": [
+        "^gs:\\/\\/[^\\n\\r]+$"
+      ]
+    },
+    {
+      "name": "output_table",
+      "label": "BigQuery Output Table",
+      "helpText": "BigQuery table for valid parsed rows. Format: <project>:<dataset>.<table>",
+      "regexes": [
+        "([^:]+:)?[^.]+[.].+"
+      ]
+    },
+    {
+      "name": "invalid_table",
+      "label": "BigQuery Invalid Records Table",
+      "helpText": "BigQuery table for invalid rows that couldn't be parsed. Format: <project>:<dataset>.<table>",
+      "regexes": [
+        "([^:]+:)?[^.]+[.].+"
+      ]
+    }
+  ]
+}
