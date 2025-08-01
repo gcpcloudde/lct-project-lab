@@ -112,7 +112,7 @@ def run(argv=None,save_main_session=True):
         valid_rows | "WriteToBQValid" >> beam.io.WriteToBigQuery(
             options.output_table,
             schema=bq_schema,
-            write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND,
+            write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE,
             create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED
         )
 
